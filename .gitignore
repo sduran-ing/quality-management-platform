@@ -1,0 +1,57 @@
+# ============================================
+# ENVIRONMENT VARIABLES
+# ============================================
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# But always commit the example templates
+!.env.example
+# Covers frontend/.env.example too
+!**/.env.example    
+
+# ============================================
+# DEPENDENCIES
+# ============================================
+node_modules/
+
+# ============================================
+# NEXT.JS BUILD OUTPUT
+# ============================================
+frontend/.next/
+frontend/out/
+frontend/build/
+
+# Next.js requires this file to be committed
+!frontend/next-env.d.ts
+
+# ============================================
+# LOGS
+# ============================================
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ============================================
+# OS FILES
+# ============================================
+.DS_Store           # Mac
+Thumbs.db           # Windows
+Desktop.ini         # Windows
+
+# ============================================
+# EDITORS
+# ============================================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ============================================
+# MISC
+# ============================================
+*.tsbuildinfo
+.turbo

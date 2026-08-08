@@ -1,0 +1,95 @@
+/* This import is for Tailwind V4 syntax, any other version may need different declaration */
+@import "tailwindcss";
+
+/* This will allow the following:
+Light background: <div className="bg-primary-50">
+Main button: <button className="bg-primary-600"> */
+@theme {
+  /* CUSTOM COLORS
+  Primary: Emerald (main brand color) */
+  --color-primary-50: #ECFDF5;
+  --color-primary-100: #D1FAE5;
+  --color-primary-200: #A7F3D0;
+  --color-primary-300: #6EE7B7;
+  --color-primary-400: #34D399;
+  --color-primary-500: #10B981;
+  --color-primary-600: #059669; /* Main color */
+  --color-primary-700: #047857;
+  --color-primary-800: #065F46;
+  --color-primary-900: #064E3B;
+
+  /* Secondary: Cyan (supporting actions) */
+  --color-secondary-50: #ECFEFF;
+  --color-secondary-100: #CFFAFE;
+  --color-secondary-200: #A5F3FC;
+  --color-secondary-300: #67E8F9;
+  --color-secondary-400: #22D3EE;
+  --color-secondary-500: #06B6D4;
+  --color-secondary-600: #0891B2; /* Secondary actions */
+  --color-secondary-700: #0E7490;
+  --color-secondary-800: #155E75;
+  --color-secondary-900: #164E63;
+
+  /* Accent: Purple (achievements, special elements) */
+  --color-accent-50: #FAF5FF;
+  --color-accent-100: #F3E8FF;
+  --color-accent-200: #E9D5FF;
+  --color-accent-300: #D8B4FE;
+  --color-accent-400: #C084FC;
+  --color-accent-500: #A855F7; /* Achievements */
+  --color-accent-600: #9333EA;
+  --color-accent-700: #7E22CE;
+  --color-accent-800: #6B21A8;
+  --color-accent-900: #581C87;
+
+  /* CUSTOM FONTS */
+  --font-heading: var(--font-poppins), sans-serif;
+  --font-body: var(--font-open-sans), sans-serif;
+
+  /* CUSTOM SHADOWS */
+  --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  --shadow-card-hover: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+
+  /* CUSTOM ANIMATIONS */
+  --animate-slide-in: slideIn 0.3s ease-out;
+  --animate-fade-in: fadeIn 0.2s ease-out;
+  --animate-pulse-soft: pulseSoft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes pulseSoft {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Achievement notification timer bar - shrinks over the specific config
+eg. style={{ animation: 'timer-shrink 15000ms linear forwards' }}
+It will shrink during 15 sec
+ */
+@keyframes timer-shrink {
+  from { width: 100%; }
+  to { width: 0%; }
+}

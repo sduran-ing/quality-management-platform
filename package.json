@@ -1,0 +1,17 @@
+{
+  "name": "qms-platform",
+  "version": "1.0.0",
+  "description": "Quality Management System Platform",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently --kill-others-on-fail -n BACKEND,FRONTEND -c bgGreen.bold,bgBlue.bold npm:dev:*",
+    "dev:backend": "cd backend && npm start",
+    "dev:frontend": "cd frontend && npm run dev",
+    "install:all": "npm run install:backend && npm run install:frontend",
+    "install:backend": "cd backend && npm install",
+    "install:frontend": "cd frontend && npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
