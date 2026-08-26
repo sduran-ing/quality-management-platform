@@ -21,13 +21,20 @@ module.exports = {
     dialect: 'postgres',
     logging: false
   },
+
+  // This config is to run the migration in the production DB using: $env:NODE_ENV="production"
   production: {
-    username: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
+    // Uses a single connection string instead of individual variables
+    // Supabase provides this format: postgresql://user:password@host:5432/db
+    use_env_variable: 'DATABASE_URL',
     dialect: 'postgres',
-    logging: false
+    logging: false,
+    dialectOptions: {
+      // Required for Supabase - enforces SSL connection
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
+    }
   }
 };

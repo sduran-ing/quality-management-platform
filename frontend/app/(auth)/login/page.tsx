@@ -190,7 +190,7 @@ export default function LoginPage() {
 
             // Login with demo credentials
             const response = await loginUser({
-                email: 'demo@qms-platform.com',
+                email: 'demo@emeraldsoftware.dev',
                 password: 'Demo123!',
             });
 
@@ -235,7 +235,7 @@ export default function LoginPage() {
          */}
                 <div className="bg-gradient-to-r from-primary-50 to-secondary-50 border-2 border-primary-200 rounded-xl p-6">
                     <div className="text-center mb-4">
-                        <p className="font-body text-sm text-gray-700">
+                        <p className="font-body text-md text-gray-700">
                             Explore the platform instantly with one click
                         </p>
                     </div>
@@ -252,7 +252,7 @@ export default function LoginPage() {
                     </Button>
 
                     <div className="mt-3 text-center">
-                        <p className="font-body text-sm text-gray-700">
+                        <p className="font-body text-md text-gray-700">
                             Role: Quality Manager + Shared Demo Environment
                         </p>
                     </div>
@@ -268,7 +268,7 @@ export default function LoginPage() {
                         <div className="w-full border-t border-gray-300"></div>
                     </div>
                     <div className="relative flex justify-center text-sm">
-                        <span className="px-4 bg-gray-50 text-gray-500 font-body">
+                        <span className="px-4 bg-gray-50 text-gray-700 font-body">
                             Or sign in with your account
                         </span>
                     </div>
@@ -361,7 +361,7 @@ export default function LoginPage() {
 
                     {/* Register Link */}
                     <div className="text-center">
-                        <p className="font-body text-sm text-gray-600">
+                        <p className="font-body text-md text-gray-600">
                             Don't have an account?{' '}
                             <Link
                                 href="/register"
@@ -381,7 +381,7 @@ export default function LoginPage() {
                     <div className="text-center">
                         <Link
                             href="/forgot-password"
-                            className="font-body text-sm text-primary-600 hover:text-primary-700"
+                            className="font-body text-md text-primary-600 hover:text-primary-700"
                         >
                             Forgot your password?
                         </Link>

@@ -158,7 +158,8 @@ export default function TopBar() {
               <div className="py-2">
                 {/* My Profile */}
                 <Link
-                  href="/profile"
+                  href="/"
+                  // href="/profile"
                   className={cn(
                     'flex items-center gap-3 px-4 py-2',
                     'font-body text-sm text-gray-700',

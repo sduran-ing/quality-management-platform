@@ -66,7 +66,7 @@ const register = async (req, res) => {
     // GET OR CREATE DEMO COMPANY
     // ============================================
 
-    const DEMO_COMPANY_NAME = 'QMS Demo Company';
+    const DEMO_COMPANY_NAME = 'Emerald Software Inc';
 
     // Try to find existing demo company
     let company = await Company.findOne({

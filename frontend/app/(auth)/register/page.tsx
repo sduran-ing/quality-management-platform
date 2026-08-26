@@ -177,7 +177,7 @@ export default function RegisterPage() {
                     <h2 className="font-heading text-3xl font-bold text-gray-900">
                         Create Demo Account
                     </h2>
-                    <p className="mt-2 font-body text-base text-gray-600">
+                    <p className="mt-2 font-body text-base text-gray-700">
                         Already have an account?{' '}
                         <Link
                             href="/login"
@@ -208,7 +208,7 @@ export default function RegisterPage() {
                                 Demo Environment
                             </h3>
                             <p className="font-body text-base text-blue-800 leading-relaxed">
-                                You'll join the <strong>QMS Demo Company</strong> as a <strong>Quality Manager</strong>.
+                                You'll join the <strong>Emerald Software Inc</strong> as a <strong>Quality Manager</strong>.
                                 This is a shared environment where all demo users can view and interact with the same data.
                                 Perfect for exploring features!
                             </p>
@@ -320,10 +320,10 @@ export default function RegisterPage() {
            * - Better UX
            */}
                     <div className="bg-gray-50 border border-gray-200 rounded-lg p-3">
-                        <p className="font-body text-xs text-gray-600 font-medium mb-1">
+                        <p className="font-body text-sm text-gray-600 font-medium mb-1">
                             Password Requirements:
                         </p>
-                        <ul className="font-body text-xs text-gray-600 space-y-0.5 list-disc list-inside">
+                        <ul className="font-body text-sm text-gray-600 space-y-0.5 list-disc list-inside">
                             <li>At least 6 characters long</li>
                             <li>One uppercase letter (A-Z)</li>
                             <li>One number (0-9)</li>
@@ -351,7 +351,7 @@ export default function RegisterPage() {
                     <div className="text-center">
                         <Link
                             href="/login"
-                            className="font-body text-sm text-gray-600 hover:text-gray-900"
+                            className="font-body text-md text-gray-600 hover:text-gray-900"
                         >
                             Back to login
                         </Link>
@@ -365,7 +365,7 @@ export default function RegisterPage() {
          */}
                 <div className="border-t border-gray-200 pt-6">
                     <div className="text-center">
-                        <p className="font-body text-sm text-gray-600 mb-3">
+                        <p className="font-body text-md text-gray-600 mb-3">
                             Want to skip registration?
                         </p>
                         <Link href="/login">
