@@ -14,7 +14,7 @@ module.exports = {
     // Remove corrective_action_deadline column (not needed at audit level)
     await queryInterface.removeColumn('audits', 'corrective_action_deadline');
 
-    console.log('✅ Audit schema fixed: Added description, removed lead_auditor_id and corrective_action_deadline');
+    console.log('Audit schema fixed: Added description, removed lead_auditor_id and corrective_action_deadline');
   },
 
   down: async (queryInterface, Sequelize) => {
