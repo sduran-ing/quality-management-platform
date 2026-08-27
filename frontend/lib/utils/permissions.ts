@@ -37,18 +37,18 @@ export function getUserAuditRoles(
   return {
     // User is an auditee
     isAuditee: teamMembers.some(
-      member => member.id === userId && member.AuditTeam?.role === 'auditee'
+      member => member.id === userId && member.auditTeam?.role === 'auditee'
     ),
     
     // User is the lead auditor
     isLeadAuditor: teamMembers.some(
-      member => member.id === userId && member.AuditTeam?.role === 'lead_auditor'
+      member => member.id === userId && member.auditTeam?.role === 'lead_auditor'
     ),
     
     // User is an auditor (includes lead auditor)
     isAuditor: teamMembers.some(
       member => member.id === userId && 
-      (member.AuditTeam?.role === 'auditor' || member.AuditTeam?.role === 'lead_auditor')
+      (member.auditTeam?.role === 'auditor' || member.auditTeam?.role === 'lead_auditor')
     )
   };
 }
