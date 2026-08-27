@@ -43,19 +43,19 @@ export default function DocumentStatusChart({ data }: DocumentStatusChartProps) 
   // Custom label to show percentages on the pie chart
   // Properly typed - Recharts provides these properties
   const renderCustomLabel = ({
-    cx,
-    cy,
-    midAngle,
-    innerRadius,
-    outerRadius,
-    percent,
+    cx = 0,
+    cy = 0,
+    midAngle = 0,
+    innerRadius = 0,
+    outerRadius = 0,
+    percent = 0,
   }: {
-    cx: number;
-    cy: number;
-    midAngle: number;
-    innerRadius: number;
-    outerRadius: number;
-    percent: number;
+    cx?: number;
+    cy?: number;
+    midAngle?: number;
+    innerRadius?: number;
+    outerRadius?: number;
+    percent?: number;
   }) => {
     const RADIAN = Math.PI / 180;
     const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
@@ -63,11 +63,11 @@ export default function DocumentStatusChart({ data }: DocumentStatusChartProps) 
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
     return (
-      <text 
-        x={x} 
-        y={y} 
-        fill="white" 
-        textAnchor={x > cx ? 'start' : 'end'} 
+      <text
+        x={x}
+        y={y}
+        fill="white"
+        textAnchor={x > cx ? 'start' : 'end'}
         dominantBaseline="central"
         className="font-body text-sm font-medium"
       >
@@ -101,14 +101,13 @@ export default function DocumentStatusChart({ data }: DocumentStatusChartProps) 
             dataKey="value"
           >
             {/* Cell is deprecated but still works - we'll suppress the warning */}
-            {/* @ts-ignore - Cell works fine, deprecation is for future versions */}
             {chartData.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={entry.color} />
             ))}
           </Pie>
-          
+
           {/* Tooltip shows on hover */}
-          <Tooltip 
+          <Tooltip
             contentStyle={{
               backgroundColor: 'white',
               border: '1px solid #E5E7EB',
@@ -121,10 +120,10 @@ export default function DocumentStatusChart({ data }: DocumentStatusChartProps) 
               return [`${num} documents`, ''];
             }}
           />
-          
+
           {/* Legend at bottom */}
-          <Legend 
-            verticalAlign="bottom" 
+          <Legend
+            verticalAlign="bottom"
             height={36}
             iconType="circle"
             formatter={(value) => (
@@ -141,7 +140,7 @@ export default function DocumentStatusChart({ data }: DocumentStatusChartProps) 
             <div key={item.name} className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 {/* Color indicator */}
-                <div 
+                <div
                   className="w-3 h-3 rounded-full"
                   style={{ backgroundColor: item.color }}
                 />
@@ -155,7 +154,7 @@ export default function DocumentStatusChart({ data }: DocumentStatusChartProps) 
             </div>
           ))}
         </div>
-        
+
         {/* Total count */}
         <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
           <span className="font-body text-sm font-medium text-gray-700">
