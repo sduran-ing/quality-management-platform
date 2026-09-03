@@ -22,6 +22,7 @@ import {
   Trophy,
   ChevronDown,
   ChevronRight,
+  X,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -35,7 +36,23 @@ interface NavigationItem {
   children?: NavigationItem[];  // Submenu items
 }
 
-export default function Sidebar() {
+interface SidebarProps {
+  /**
+   * Whether the sidebar is open on mobile
+   * On desktop (≥768px) this prop is ignored, sidebar is always visible
+   * Controlled by layout.tsx which owns the open/close state
+   */
+  isOpen: boolean;
+
+  /**
+   * Called when the user closes the sidebar on mobile:
+   * - Clicking the X button inside the sidebar
+   * Layout.tsx also closes it on route change and backdrop click
+   */
+  onClose: () => void;
+}
+
+export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   // Track which menu sections are open/closed
   // Object where keys are item IDs and values are true/false
   const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({
@@ -120,6 +137,7 @@ export default function Sidebar() {
         }
       ],
     },
+    // // FUTURE MODULES
     // {
     //   id: 'organization',
     //   label: 'Organization',
@@ -219,7 +237,7 @@ export default function Sidebar() {
               'w-full flex items-center justify-between px-3 py-2 rounded-lg',
               'font-body text-sm font-medium transition-colors',
               'hover:bg-primary-50 hover:text-primary-700',
-              'text-gray-700'
+              'text-white'
             )}
           >
             <div className="flex items-center gap-3">
@@ -255,8 +273,8 @@ export default function Sidebar() {
           'font-body text-sm font-medium transition-colors',
           'hover:bg-primary-50 hover:text-primary-700',
           active 
-            ? 'bg-primary-100 text-primary-700'  // Active link styling
-            : 'text-gray-700',
+            ? 'bg-white text-primary-700'  // Active link styling
+            : 'text-white',
           isChild && 'text-sm'  // Slightly smaller text for submenu items
         )}
       >
@@ -276,9 +294,39 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="w-64 h-screen bg-white border-r border-gray-200 flex flex-col">
-      {/* Logo section */}
-      <div className="h-16 flex items-center px-6 border-b border-gray-200">
+    /**
+     * SIDEBAR CONTAINER
+     *
+     * MOBILE (< 768px):
+     * - position: fixed → out of flex flow, overlays content
+     * - Full height (inset-y-0), anchored to left edge
+     * - z-30: above backdrop (z-20) and page content
+     * - Slides in/out via translate-x:
+     *     isOpen=false → -translate-x-full (hidden off-screen left)
+     *     isOpen=true  →  translate-x-0    (visible)
+     * - transition-transform: animates the slide smoothly
+     *
+     * DESKTOP (≥ 768px):
+     * - md:relative: back in the flex flow (takes up its 256px)
+     * - md:translate-x-0: always visible, ignores isOpen prop
+     * - md:z-auto: no special stacking needed
+     */
+    <aside
+      className={cn(
+        // Base styles (both breakpoints)
+        'w-64 h-screen bg-primary-600 flex flex-col',
+
+        // Mobile: fixed overlay with slide animation
+        'fixed inset-y-0 left-0 z-30',
+        'transition-transform duration-300 ease-in-out',
+        isOpen ? 'translate-x-0' : '-translate-x-full',
+
+        // Desktop: back in normal flow, always visible
+        'md:relative md:translate-x-0 md:z-auto'
+      )}
+    >
+      {/* LOGO SECTION */}
+      <div className="h-16 flex items-center justify-between px-6 border-b border-gray-200 bg-white">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 bg-gradient-to-br from-primary-600 to-primary-700 rounded-lg flex items-center justify-center">
             <span className="text-white font-heading font-bold text-lg">Q</span>
@@ -287,18 +335,33 @@ export default function Sidebar() {
             QMS Platform
           </span>
         </div>
+
+        {/**
+         * CLOSE BUTTON — mobile only
+         *
+         * Gives the user a clear way to dismiss the sidebar
+         * without having to tap the backdrop.
+         * Hidden on desktop (md:hidden) where sidebar is always open.
+         */}
+        <button
+          onClick={onClose}
+          className="md:hidden p-1.5 rounded-lg text-gray-500 hover:bg-gray-100 hover:text-gray-700 transition-colors"
+          aria-label="Close navigation menu"
+        >
+          <X className="w-5 h-5" />
+        </button>
       </div>
 
-      {/* Navigation items */}
+      {/* NAVIGATION ITEMS */}
       <nav className="flex-1 overflow-y-auto px-3 py-4">
         <div className="space-y-1">
           {navigation.map(item => renderNavItem(item))}
         </div>
       </nav>
 
-      {/* Footer space (could add user info here later) */}
+      {/* FOOTER */}
       <div className="h-16 border-t border-gray-200 px-6 flex items-center">
-        <span className="text-xs text-gray-500 font-body">Version 1.0.0</span>
+        <span className="text-xs text-white font-body">Version 1.0.0</span>
       </div>
     </aside>
   );

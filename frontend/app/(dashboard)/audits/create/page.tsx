@@ -78,7 +78,9 @@ const createAuditSchema = z.object({
   // Description (optional)
   description: z
     .string()
-    .optional(),
+    .min(1, { message: 'Description is required' })
+    .min(10, { message: 'Description must be at least 10 characters' })
+    .max(1000, { message: 'Description must not exceed 1000 characters' }),
 
   // Process IDs (multi-select)
   processIds: z
@@ -91,7 +93,7 @@ const createAuditSchema = z.object({
     .min(1, { message: 'At least one standard is required' }),
 
   // Team members (dynamic array)
-teamMembers: z
+  teamMembers: z
     .array(
       z.object({
         userId: z.number().positive({ message: 'Please select a user' }),
@@ -176,7 +178,7 @@ export default function CreateAuditPage() {
       processIds: [],
       standardIds: [],
       teamMembers: [{ userId: 0, role: 'lead_auditor' },
-        { userId: 0, role: 'auditee' }
+      { userId: 0, role: 'auditee' }
       ]
     }
   });
@@ -364,17 +366,17 @@ export default function CreateAuditPage() {
         )}
 
         {/* Form Card */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-y-visible">
           <div className="flex">
             {/* Left accent stripe */}
             <div className="w-2 bg-primary-600 flex-shrink-0" />
 
             {/* Form content */}
             <form onSubmit={handleSubmit(onSubmit)} className="flex-1 p-8">
-              <div className="space-y-6">                
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                    Audit Information
-                  </h3>
+              <div className="space-y-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                  Audit Information
+                </h3>
 
                 {/* Title */}
                 <div>
@@ -455,9 +457,10 @@ export default function CreateAuditPage() {
                 {/* Description */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Description
+                    Description <span className="text-red-500">*</span>
                   </label>
                   <textarea
+                    {...register('description')}
                     placeholder="Describe the purpose and scope of this audit..."
                     rows={3}
                     disabled={isSubmitting}
@@ -465,10 +468,17 @@ export default function CreateAuditPage() {
                       'w-full px-4 py-2.5 rounded-lg border bg-white',
                       'text-sm resize-none transition-all',
                       'focus:outline-none focus:ring-2 focus:ring-primary-500',
-                      'border-gray-300 focus:border-primary-500'
+                      'border-gray-300 focus:border-primary-500',
+                      errors.description
+                        ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
+                        : 'border-gray-300 focus:border-primary-500'
                     )}
-                    {...register('description')}
                   />
+                  {errors.description && (
+                    <p className="mt-1 text-sm text-red-600">
+                      {errors.description.message}
+                    </p>
+                  )}
                 </div>
 
                 {/* Divider */}
@@ -477,7 +487,7 @@ export default function CreateAuditPage() {
                     <h3 className="text-lg font-semibold text-gray-900">
                       <Users className="h-5 w-5 inline mr-2" />
                       Audit Team
-                    </h3>                    
+                    </h3>
                     <Button
                       type="button"
                       variant="outline"
@@ -489,10 +499,10 @@ export default function CreateAuditPage() {
                     >
                       <Plus className="h-4 w-4" />
                       Add Member
-                    </Button>                    
+                    </Button>
                   </div>
                   <p className="text-sm mb-3">
-                      <strong>Team Requirements:</strong> At least 1 Lead Auditor and 1 Auditee are required.
+                    <strong>Team Requirements:</strong> At least 1 Lead Auditor and 1 Auditee are required.
                   </p>
 
                   {/* Team Members Validation Errors - ALWAYS VISIBLE */}
@@ -505,7 +515,7 @@ export default function CreateAuditPage() {
                           <p className="text-sm text-red-800">{errors.teamMembers.message}</p>
                         </div>
                       )}
-                      
+
                       {/* Refinement errors (lead auditor, auditee) */}
                       {errors.teamMembers.root && (
                         <div className="space-y-2">
@@ -531,7 +541,7 @@ export default function CreateAuditPage() {
                   <div className="space-y-3">
                     {fields.map((field, index) => (
                       <div key={field.id} className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border border-gray-200">
-                        
+
                         {/* User Select */}
                         <div className="flex-1">
                           <Controller
@@ -635,7 +645,7 @@ export default function CreateAuditPage() {
                       disabled={isSubmitting}
                     />
                   )}
-                />                
+                />
 
                 {/* Form Actions */}
                 <div className="flex items-center justify-end gap-3 pt-6 border-t border-gray-200">
