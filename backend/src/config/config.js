@@ -3,6 +3,7 @@
 require('dotenv').config();
 
 module.exports = {
+  // This config is to run the migration locally using: $env:NODE_ENV="development"
   development: {
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,

@@ -130,14 +130,15 @@ export default function SearchableSelect({
    * 3. Calculate space available above (container top - viewport top)
    * 4. If not enough space below AND more space above → open upward
    * 
-   * estimatedDropdownHeight: search bar (~52px) + up to 5 options (~200px) = 260px
+   * estimatedDropdownHeight: search bar (~52px) + up to 5 options (~200px) = 260px (minimum drop height)
+   * The higher the value, less available space to open the dropbox downward hence forcing to open upward
    */
   const checkFlipDirection = () => {
     if (containerRef.current) {
       const rect = containerRef.current.getBoundingClientRect();
       const spaceBelow = window.innerHeight - rect.bottom;
       const spaceAbove = rect.top;
-      const estimatedDropdownHeight = 260;
+      const estimatedDropdownHeight = 300;
 
       setOpenUpward(
         spaceBelow < estimatedDropdownHeight && spaceAbove > spaceBelow

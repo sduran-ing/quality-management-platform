@@ -377,11 +377,11 @@ const createAudit = async (req, res) => {
     } = req.body;
 
     // Validation - required fields
-    if (!title || !audit_type || !start_date || !end_date) {
+    if (!title || !audit_type || !start_date || !end_date || !description) {
       await transaction.rollback();
       return res.status(400).json({
         success: false,
-        message: 'Title, audit type, start date, and end date are required'
+        message: 'Title, audit type, start date, end date, and description are required'
       });
     }
 
@@ -523,7 +523,7 @@ const createAudit = async (req, res) => {
       status: 'scheduled',
       scheduled_start_date: start_date,
       scheduled_end_date: end_date,
-      description: description ? description.trim() : null,
+      description: description.trim(),
       created_by: req.user.id
     }, { transaction });
 

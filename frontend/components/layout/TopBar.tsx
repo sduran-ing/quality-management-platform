@@ -8,6 +8,7 @@
  * Top navigation bar shown on all authenticated pages.
  * 
  * FEATURES:
+ * - Hamburger button on mobile to toggle sidebar
  * - Shows current user name and role
  * - User dropdown menu with logout
  * - Responsive design
@@ -15,12 +16,20 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { Bell, User, Trophy, LogOut, ChevronDown } from 'lucide-react';
+import { Bell, User, Trophy, LogOut, ChevronDown, Menu } from 'lucide-react';
 import { cn, getInitials, formatSnakeCase } from '@/lib/utils';
 import { useAuth } from '@/lib/contexts/AuthContext';   // Import useAuth to access and use context
 import Button from '@/components/ui/Button';
 
-export default function TopBar() {
+interface TopBarProps {
+  /**
+   * Called when the hamburger button is clicked on mobile.
+   * Defined in layout.tsx which owns the sidebar open/close state.
+   */
+  onMenuToggle: () => void;
+}
+
+export default function TopBar({ onMenuToggle }: TopBarProps) {
   // Get user data and logout function from Auth Context
   const { user, logout } = useAuth();
   
@@ -49,13 +58,14 @@ export default function TopBar() {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isUserMenuOpen]);
-/**
- * USAGE
- * <div ref={dropdownRef}>
- * <button onClick={() => setIsUserMenuOpen(true)}>Menu</button>
- * {isUserMenuOpen && <div>Dropdown content</div>}
- * </div>
- */
+
+  /**
+   * USAGE
+   * <div ref={dropdownRef}>
+   * <button onClick={() => setIsUserMenuOpen(true)}>Menu</button>
+   * {isUserMenuOpen && <div>Dropdown content</div>}
+   * </div>
+   */
 
   /**
    * Toggle user menu
@@ -84,8 +94,28 @@ export default function TopBar() {
 
   return (
     <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6">
-      {/* Left side - Top bar title placeholder */}
+
+      {/* Left side */}
       <div className="flex items-center gap-4">
+
+        {/**
+         * HAMBURGER BUTTON — mobile only
+         *
+         * md:hidden hides this on desktop (≥768px) where the sidebar
+         * is always visible and doesn't need a toggle button.
+         *
+         * Calls onMenuToggle from layout.tsx which flips isSidebarOpen state,
+         * causing the Sidebar to slide in or out.
+         */}
+        <button
+          onClick={onMenuToggle}
+          className="md:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors"
+          aria-label="Toggle navigation menu"
+        >
+          <Menu className="w-5 h-5" />
+        </button>
+
+        {/* Top bar title placeholder */}
         <h2 className="font-heading text-xl font-semibold text-gray-900">
           {/* Top bar title */}
         </h2>

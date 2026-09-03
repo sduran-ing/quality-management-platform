@@ -376,16 +376,15 @@ export default function LoginPage() {
                      * FORGOT PASSWORD LINK
                      * 
                      * TODO: Implement password reset flow
-                     * For now, just a placeholder
                      */}
-                    <div className="text-center">
+                    {/* <div className="text-center">
                         <Link
                             href="/forgot-password"
                             className="font-body text-md text-primary-600 hover:text-primary-700"
                         >
                             Forgot your password?
                         </Link>
-                    </div>
+                    </div> */}
                 </form>
             </div>
         </div>

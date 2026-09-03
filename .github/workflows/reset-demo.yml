@@ -1,0 +1,63 @@
+# ============================================
+# GITHUB ACTIONS WORKFLOW: Reset Demo
+# ============================================
+#
+# Runs the demo reset script automatically every Sunday
+# and manually whenever you click "Run workflow".
+#
+# WHAT IT DOES:
+# Runs backend/scripts/resetDemo.js which:
+# 1. Deletes all Supabase storage files
+# 2. Truncates all database tables
+# 3. Re-seeds fresh demo data
+
+name: Reset Demo
+
+on:
+  # AUTOMATIC: Every Sunday at 2:00 AM UTC
+  schedule:
+    - cron: '0 2 * * 0'
+
+  # MANUAL: "Run workflow" button in GitHub Actions tab
+  workflow_dispatch:
+
+jobs:
+  reset:
+    name: Reset Demo Data
+    runs-on: ubuntu-latest   # GitHub provides this Ubuntu computer for free
+
+    steps:
+      # STEP 1: Get your code
+      # Download the repo onto the Ubuntu runner
+      # Without this, the runner has no code to work with
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # STEP 2: Install Node.js
+      # The Ubuntu runner has Node pre-installed but we specify
+      # the version to match the local environment
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # STEP 3: Install backend dependencies
+      # Same as running npm install locally in backend/
+      # working-directory tells the runner which folder to run in
+      - name: Install dependencies
+        working-directory: backend
+        run: npm install
+
+      # STEP 4: Run the reset script
+      # Passes all secrets as environment variables
+      # ${{ secrets.NAME }} reads from GitHub repo secrets
+      # (we set these up in the next step)
+      - name: Run demo reset
+        working-directory: backend
+        env:
+          NODE_ENV: production
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          SUPABASE_STORAGE_BUCKET: ${{ secrets.SUPABASE_STORAGE_BUCKET }}
+        run: node scripts/resetProductionDemo.js
