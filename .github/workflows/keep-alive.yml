@@ -1,0 +1,21 @@
+# Pings the backend so Render's free tier doesn't go to sleep.
+# Backup for the external cron job, because GitHub's scheduler can run late.
+name: Keep backend awake
+
+on:
+  schedule:
+    # Every 8 minutes. Runs at minutes 0, 8, 16 ... 56, then 0 again.
+    # That leaves a 4-minute gap at the top of each hour, still under 15.
+    - cron: '*/8 * * * *'
+  workflow_dispatch: # lets you run it manually to test
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call the health endpoint
+        # -f  fail on HTTP errors (so the run shows red)
+        # -sS quiet, but still print errors
+        # --max-time 90   wait up to 90s in case the server is waking up
+        # --retry 2       retry twice if the first attempt fails
+        run: curl -fsS --max-time 90 --retry 2 https://qms-backend-avyu.onrender.com/health
