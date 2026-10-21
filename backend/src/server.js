@@ -70,6 +70,12 @@ app.get('/', (req, res) => {
   });
 });
 
+
+// Import health routes
+const healthRoutes = require('./routes/healthRoutes');
+// Public on purpose: no token needed
+app.use('/health', healthRoutes);
+
 // Mount auth routes
 app.use('/api/auth', authRoutes);
 
@@ -115,15 +121,18 @@ app.use('/api/achievements', achievementRoutes);
 
 //================= Just for Dev Testing =============
 // Test protected route
-const { authenticate } = require('./middleware/authMiddleware');
 
-app.get('/api/test/protected', authenticate, (req, res) => {
-  res.json({
-    success: true,
-    message: 'You accessed a protected route!',
-    user: req.user // This comes from authenticate middleware
+if (process.env.NODE_ENV !== 'production') {
+  const { authenticate } = require('./middleware/authMiddleware');
+
+  app.get('/api/test/protected', authenticate, (req, res) => {
+    res.json({
+      success: true,
+      message: 'You accessed a protected route!',
+      user: req.user // This comes from authenticate middleware
+    });
   });
-});
+}
 //================= Just for Dev Testing =============
 
 
@@ -145,7 +154,7 @@ app.use((req, res) => {
 
 app.use((err, req, res, next) => {
   console.error('Error:', err);
-  
+
   res.status(err.status || 500).json({
     success: false,
     message: err.message || 'Internal server error',
@@ -165,7 +174,7 @@ const startServer = async () => {
     // Test database connection
     await sequelize.authenticate();
     console.log('Database connection established successfully.');
-    
+
     // Start listening for requests
     app.listen(PORT, () => {
       console.log('Server is running');
@@ -175,7 +184,7 @@ const startServer = async () => {
       console.log(`Database: ${process.env.DB_NAME}`);
       console.log('-----------------------------------');
     });
-    
+
   } catch (error) {
     console.error('Unable to start server:', error);
     process.exit(1); // Exit with error code
